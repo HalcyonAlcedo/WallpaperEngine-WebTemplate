@@ -19,34 +19,47 @@ export default {
               Season = null,
               _this = this;
           date=date.getMonth()+1;
-          switch( true )
+          if(this.season=='Auto')
           {
-          case date>=3 && date<=5:
-          Season = 'spring'
-          break;
-          case date>=6 && date<=8:
-          Season = 'summer'
-          break;
-          case date>=9 && date<=11:
-          Season = 'autumn'
-          break;
-          case date==12 || date<=2:
-          Season = 'winter'
-          break;
-          default:
-          Season = 'spring'
+            switch( true )
+            {
+            case date>=3 && date<=5:
+            Season = 'spring'
+            break;
+            case date>=6 && date<=8:
+            Season = 'summer'
+            break;
+            case date>=9 && date<=11:
+            Season = 'autumn'
+            break;
+            case date==12 || date<=2:
+            Season = 'winter'
+            break;
+            default:
+            Season = 'spring'
+            }
           }
+          else
+            Season = this.season
+          this.$store.commit('setseasoncurrent', Season)
           return {
               bg:require('@/assets/material/bg '+Season+' day.png'),
               mid:require('@/assets/material/mid '+Season+' day.png'),
               frontl:require('@/assets/material/frontl '+Season+' day.png'),
               frontr:require('@/assets/material/frontr '+Season+' day.png')
           }
+      },
+      parallax (){
+        return this.$store.state.Parallax.value;
+      },
+      season (){
+        return this.$store.state.season.value;
       }
   },
   mounted (){
     var scene = document.getElementById('dayscene')
-    new Parallax(scene,{relativeInput : true})
+    if(this.parallax)
+        new Parallax(scene,{relativeInput : true})
   }
 }
 </script>

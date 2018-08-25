@@ -10,7 +10,7 @@ import 'particlesjs'
 export default {
   name: 'parts',
   mounted (){
-    particlesJS("particles-js",require('@/assets/particles.json'))
+    particlesJS("particles-js",require('@/assets/particles-autumn.json'))
   }
 }
 </script>

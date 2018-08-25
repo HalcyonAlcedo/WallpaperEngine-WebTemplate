@@ -1,0 +1,63 @@
+{
+    "layer": {
+        "background": {
+            "file": "bg",
+            "type": "png",
+            "parallax": 0.1,
+            "class": {
+                "width": "100vw",
+                "margin-left": "100vw"
+            },
+            "src": "bgimg.jpg"
+        }
+    },
+    "common": {
+        "Season": {
+            "spring": {
+                "label": "spring",
+                "months": {
+                    "start": 4,
+                    "end": 6
+                }
+            },
+            "autumn": {
+                "label": "autumn",
+                "months": {
+                    "start": 10,
+                    "end": 11
+                }
+            },
+            "summer": {
+                "label": "summer",
+                "months": {
+                    "start": 7,
+                    "end": 9
+                }
+            },
+            "winter": {
+                "label": "winter",
+                "months": {
+                    "start": 12,
+                    "end": 3
+                }
+            }
+        },
+        "periods": {
+            "day": {
+                "label": "day",
+                "benchmarks": "sunrise",
+                "deviation": 0
+            },
+            "dusk": {
+                "label": "evening",
+                "benchmarks": "sunset",
+                "deviation": 30
+            },
+            "night": {
+                "label": "night",
+                "benchmarks": "sunset",
+                "deviation": 0
+            }
+        }
+    }
+}

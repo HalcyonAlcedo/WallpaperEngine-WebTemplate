@@ -2,7 +2,7 @@
   <div class="screen">
       <background></background>
       <parts></parts>
-      <clock></clock>
+      <clock v-if="clock1"></clock>
   </div>
 </template>
 
@@ -17,7 +17,12 @@ export default {
       'clock': clock,
       'background': background,
       'parts' : parts
-    }
+  },
+  computed:{
+    clock1 (){
+      return this.$store.state.clock1.value;
+    },
+  }
 }
 </script>
 

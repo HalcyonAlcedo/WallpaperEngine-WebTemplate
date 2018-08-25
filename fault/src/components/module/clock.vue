@@ -1,6 +1,6 @@
 <template>
-  <div class="clock">
-      <span id='time'> 
+  <div data-relative-input = "true" id="clock" class="clock" v-bind:class = "position">
+      <span id='time' data-depth="0.1"> 
           {{clock.h}}:{{clock.m}}
           <span class='sec'>{{clock.s}}</span> 
       </span>
@@ -8,16 +8,15 @@
 </template>
 
 <script>
+import Parallax from 'parallax-js'
+
 const oClock = document.querySelector("#clock")
 export default {
   name: 'clock',
   data () {
     return {
-      clock2 : true,
-      clockx : 0,
-      clocky : 0,
       clocktime: new Date()
-    }   
+    } 
   },
   computed: {
       clock : function(){
@@ -30,10 +29,27 @@ export default {
           return {
               h , m , s
           } 
+      },
+      clock2(){
+        return this.$store.state.clock2.value;
+      },
+      clockx(){
+        return this.$store.state.clockx.value;
+      },
+      clocky(){
+        return this.$store.state.clocky.value;
+      },
+      position(){
+          return {
+            top: this.clocky+'%',
+            left: this.clockx+'%'
+          }
       }
   },
   mounted (){
+    var scene = document.getElementById('clock')
     var _this = this;
+    new Parallax(scene,{relativeInput : true})
     this.timer = setInterval(function() {
         _this.clocktime = new Date()
     }, 1000)
@@ -49,16 +65,17 @@ export default {
 <style scoped>
 .clock {
     position: fixed;
-    top: 46%;
+    top: 42%;
     left: 10%;
     text-align: center;
-    color: rgb(247, 255, 212);
+    color: rgb(255, 255, 255);
     font-size: 50px;
     font-family: 'papyrus';
-    text-shadow: 0 0 20px #7A378B;
-    z-index: 10;
+    text-shadow: 0 0 20px rgb(210, 88, 226);
+    z-index: 1;
 }
-.clock #sec {
+.clock .sec {
+    text-shadow: 0 0 30px rgb(250, 182, 36);
     font-size: 0.5em;
 }
 .clock #time {
