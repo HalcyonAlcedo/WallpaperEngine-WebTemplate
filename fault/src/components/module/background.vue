@@ -16,6 +16,11 @@ import night from '@/components/module/backimg/night'
 export default {
   name: 'background',
   data () {
+    const deviation={
+      day:this.$store.getters.donewallpaperconfig.common.periods.day.deviation,
+      night:this.$store.getters.donewallpaperconfig.common.periods.night.deviation,
+      dusk:this.$store.getters.donewallpaperconfig.common.periods.dusk.deviation
+    }
     let sunrisedate=sunrise(39.540,115.240,8)
     let add0 = function(n){
               return n < 10 ? '0' + n : '' + n
@@ -31,12 +36,11 @@ export default {
             m: add0(sunrisedate.SunSet.getMinutes())
           },
           Dusk:{
-            h: add0(sunrisedate.SunSet.getMinutes() < 30 ? sunrisedate.SunSet.getHours()-1 : sunrisedate.SunSet.getHours()),
-            m: add0(sunrisedate.SunSet.getMinutes() < 30 ? 30-sunrisedate.SunSet.getMinutes() : 30-sunrisedate.SunSet.getMinutes()+30)
+            h: add0(sunrisedate.SunSet.getMinutes() < deviation.dusk ? sunrisedate.SunSet.getHours()-1 : sunrisedate.SunSet.getHours()),
+            m: add0(sunrisedate.SunSet.getMinutes() < deviation.dusk ? deviation.dusk-sunrisedate.SunSet.getMinutes() : deviation.dusk-sunrisedate.SunSet.getMinutes()+deviation.dusk)
           }
         },
-        clocktime: new Date(),
-        adjustment:'3:30'
+        clocktime: new Date()
     }
   },
   components: {
@@ -83,43 +87,33 @@ export default {
           default:
           return 'day'
           }
+      },
+      getsunrise (){
+        return this.$store.getters.donesunrise
       }
   },
-    mounted (){
+  watch: {
+    getsunrise(val) {
+      const deviation={
+        day:this.$store.getters.donewallpaperconfig.common.periods.day.deviation,
+        night:this.$store.getters.donewallpaperconfig.common.periods.night.deviation,
+        dusk:this.$store.getters.donewallpaperconfig.common.periods.dusk.deviation
+      }
+      let add0 = function(n){
+        return n < 10 ? '0' + n : '' + n
+      }
+      let sunrisedate=sunrise(val.w,val.s,val.u)
+      this.sunrisetime.sunrise.h=add0(sunrisedate.SunRise.getHours())
+      this.sunrisetime.sunrise.m=add0(sunrisedate.SunRise.getMinutes())
+      this.sunrisetime.sunset.h=add0(sunrisedate.SunSet.getHours())
+      this.sunrisetime.sunset.m=add0(sunrisedate.SunSet.getMinutes())
+      this.sunrisetime.Dusk.h=add0(sunrisedate.SunSet.getMinutes() < deviation.dusk ? sunrisedate.SunSet.getHours()-1 : sunrisedate.SunSet.getHours())
+      this.sunrisetime.Dusk.m=add0(sunrisedate.SunSet.getMinutes() < deviation.dusk ? deviation.dusk-sunrisedate.SunSet.getMinutes() : deviation.dusk-sunrisedate.SunSet.getMinutes()+deviation.dusk)
+    }
+  },
+  mounted (){
     var _this = this;
     this.timer = setInterval(function() {
-        /*let adjustmenttime=new Date()
-        if(_this.adjustment.slice(0,1)=='-')
-        {
-          let sHours= adjustmenttime.getHours()-_this.adjustment.slice(0,_this.adjustment.indexOf(":")),
-              sMinutes= adjustmenttime.getMinutes()-_this.adjustment.slice(_this.adjustment.indexOf(":")+1)
-          if(sMinutes<0)
-          {
-            sHours-= 1
-            sMinutes+= 59
-          }
-          if(sHours<0)
-          {
-            sHours+= 23
-          }
-          adjustmenttime.setHours(sHours,sMinutes)
-        }
-        else
-        {
-          let sHours= adjustmenttime.getHours()+_this.adjustment.slice(0,_this.adjustment.indexOf(":")),
-              sMinutes= adjustmenttime.getMinutes()+_this.adjustment.slice(_this.adjustment.indexOf(":")+1)
-          if(sMinutes>=59)
-          {
-            sHours+= 1
-            sMinutes-= 59
-          }
-          if(sHours>=23)
-          {
-            sHours-= 23
-          }
-          adjustmenttime.setHours(sHours,sMinutes)
-        }
-        _this.clocktime = adjustmenttime*/
         _this.clocktime = new Date()
     }, 1000)
   },
@@ -137,7 +131,7 @@ export default {
 }
 
 .component-fade-enter-active {
-  transition: opacity 10s ease;
+  transition: opacity 1200s ease;
 }
 
 .component-fade-enter, .component-fade-leave-to{

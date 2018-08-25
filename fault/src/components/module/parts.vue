@@ -5,12 +5,22 @@
 </template>
 
 <script>
-import 'particlesjs'
+
 
 export default {
   name: 'parts',
   mounted (){
-    particlesJS("particles-js",require('@/assets/particles-autumn.json'))
+    particlesJS("particles-js",require('@/assets/particles-'+this.seasoncurrent+'.json'))
+  },
+  computed: {
+    seasoncurrent (){
+      return this.$store.getters.doneseasoncurrent
+    }
+  },
+  watch: {
+    seasoncurrent(val) {
+      particlesJS("particles-js",require('@/assets/particles-'+val+'.json'))
+    }
   }
 }
 </script>

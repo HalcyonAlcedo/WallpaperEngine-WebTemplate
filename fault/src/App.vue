@@ -1,35 +1,58 @@
 <template>
   <div id="app">
     <router-view/>
+    <transition name="fade">
+      <loadview v-if="configload"></loadview>
+    </transition>
   </div>
 </template>
 
 <script>
+import loadview from '@/components/loadview'
+
 export default {
   name: 'App',
+  components: {
+      'loadview': loadview
+  },
   mounted(){
+    let _this=this
+    this.$store.dispatch('setconfigdata')
     window.wallpaperPropertyListener = {
       applyUserProperties: function(properties) {
         if (properties.Parallax) {
-          this.$store.commit('setParallax', properties.Parallax.value)
+          _this.$store.dispatch('setParallax', properties.Parallax.value)
         }
         if (properties.clock1) {
-          this.$store.commit('setclock1', properties.clock1.value)
+          _this.$store.dispatch('setclock1', properties.clock1.value)
         }
         if (properties.season) {
-          this.$store.commit('setseason', properties.season.value)
+          _this.$store.dispatch('setseason', properties.season.value)
         }
         if (properties.clock2) {
-          this.$store.commit('setclock2', properties.clock2.value)
+          _this.$store.dispatch('setclock2', properties.clock2.value)
         }
         if (properties.clockx) {
-          this.$store.commit('setclockx', properties.clockx.value)
+          _this.$store.dispatch('setclockx', properties.clockx.value)
         }
         if (properties.clocky) {
-          this.$store.commit('setclocky', properties.clocky.value)
+          _this.$store.dispatch('setclocky', properties.clocky.value)
+        }
+        if (properties.region) {
+          let region=JSON.parse(properties.region.value)
+          _this.$store.dispatch('setsunrise', {
+            w: region.w,
+            s: region.s,
+            u: region.u
+          })
         }
       }
     }
+  },
+  computed: {
+    configload (){
+          return !this.$store.getters.doneconfigload;
+        }
   }
 }
 </script>
@@ -41,5 +64,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 2.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

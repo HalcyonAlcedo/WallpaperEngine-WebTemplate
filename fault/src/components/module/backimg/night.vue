@@ -1,65 +1,111 @@
 <template>
-  <div data-relative-input = "true" id="nightscene" class="night">
-    <img name="bg" :src="image.bg" data-depth="0.1" alt="">
-    <img name="mid" :src="image.mid" data-depth="0.15" alt="">
-    <img name="frontl" :src="image.frontl" class="frontl" data-depth="0.3" alt="">
-    <img name="frontr" :src="image.frontr" class="frontr" data-depth="0.35" alt="">
+  <div class="night" id="nightscene" data-relative-input="true">
+    <img v-for="img in image.img" :key="img.key" :src="img.src" :data-depth="img.depth" :style="img.css" >
   </div>
 </template>
 
 
 <script>
-import Parallax from 'parallax-js'
+import Parallax from 'parallax-js'  
 
 export default {
   name: 'night',
+  data () {
+    return {
+      parallaxjs: null,
+      Season: null
+    }  
+  },
   computed: {
-      image:function(){
-          let date = new Date,
-              Season = null,
-              _this = this;
-          date=date.getMonth()+1;
-          if(this.season=='Auto')
-          {
-            switch( true )
-            {
-            case date>=3 && date<=5:
-            Season = 'spring'
-            break;
-            case date>=6 && date<=8:
-            Season = 'summer'
-            break;
-            case date>=9 && date<=11:
-            Season = 'autumn'
-            break;
-            case date==12 || date<=2:
-            Season = 'winter'
-            break;
-            default:
-            Season = 'spring'
-            }
+    label (){
+        return {
+            day:this.$store.getters.donewallpaperconfig.common.periods.day.label,
+            night:this.$store.getters.donewallpaperconfig.common.periods.night.label,
+            dusk:this.$store.getters.donewallpaperconfig.common.periods.dusk.label,
+            spring:this.$store.getters.donewallpaperconfig.common.Season.spring,
+            summer:this.$store.getters.donewallpaperconfig.common.Season.summer,
+            autumn:this.$store.getters.donewallpaperconfig.common.Season.autumn,
+            winter:this.$store.getters.donewallpaperconfig.common.Season.winter,
+            layer:this.$store.getters.donewallpaperconfig.layer
           }
-          else
-            Season = this.season
-          this.$store.commit('setseasoncurrent', Season)
+      },
+      image:function(){
+        let label=this.label,
+            layer=label.layer,
+            imglist =new Array,
+            _this=this
+          this.$store.dispatch('setseasoncurrent', this.Season)
+          for(let i in layer)
+          {
+            imglist.push({
+              src:(!layer[i].src || layer[i].src === 'undefined') ? ('./static/resources/'+layer[i].file+' '+this.Season+' '+label.night+'.'+layer[i].type) : 
+              ('./static/resources/'+layer[i].src),
+              depth:layer[i].parallax ? layer[i].parallax : 0,
+              css:layer[i].class,
+              key:layer[i].file
+            })
+          }
+          this.$nextTick(function(){
+            let scene = document.getElementById('nightscene')
+            if(_this.parallaxjs === null)
+              _this.parallaxjs = new Parallax(scene,{relativeInput : true})
+          })
           return {
-              bg:require('@/assets/material/bg '+Season+' night.png'),
-              mid:require('@/assets/material/mid '+Season+' night.png'),
-              frontl:require('@/assets/material/frontl '+Season+' night.png'),
-              frontr:require('@/assets/material/frontr '+Season+' night.png')
+            img:imglist,
           }
       },
       parallax (){
-        return this.$store.state.Parallax.value;
+        return this.$store.getters.doneParallax;
       },
       season (){
-        return this.$store.state.season.value;
+        return this.$store.getters.doneseason;
+      },
+      configload (){
+        return this.$store.getters.doneconfigload;
       }
   },
+  watch: {
+    parallax(val) {
+        val ?
+        this.parallaxjs.enable() :
+        this.parallaxjs.disable()
+    },
+    season(val){
+      this.seasonupdate(val)
+    }
+  },
+  methods:{
+    seasonupdate:function(val){
+      let label=this.label,
+          date = new Date,
+          _this = this
+      date=date.getMonth()+1
+      if(val=='sAuto' || val=='nAuto')
+          {
+            switch( true )
+            {
+            case date>=label.spring.months.start && date<=label.spring.months.end:
+            this.Season = val=='nAuto' ? label.spring.label : label.autumn.label
+            break;
+            case date>=label.summer.months.start && date<=label.summer.months.end:
+            this.Season = val=='nAuto' ? label.summer.label : label.winter.label
+            break;
+            case date>=label.autumn.months.start && date<=label.autumn.months.end:
+            this.Season = val=='nAuto' ? label.autumn.label : label.spring.label
+            break;
+            case date>=label.winter.months.start || date<=label.winter.months.end:
+            this.Season = val=='nAuto' ? label.winter.label : label.summer.label
+            break;
+            default:
+            this.Season = 'spring'
+            }
+          }
+          else
+            this.Season = val
+    }
+  },
   mounted (){
-    var scene = document.getElementById('nightscene')
-    if(this.parallax)
-        new Parallax(scene,{relativeInput : true})
+    this.seasonupdate(this.season)
   }
 }
 </script>
@@ -77,14 +123,5 @@ div {
 }
 .night {
     position: fixed;
-}
-.frontl {
-    width: 52vw;
-    margin-left: -12vh;
-}
-
-.frontr {
-    width: 52vw;
-    margin-left: 62vw;
 }
 </style>

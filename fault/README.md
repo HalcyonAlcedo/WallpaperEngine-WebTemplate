@@ -1,6 +1,6 @@
-# fault
+# webwallpaperedit
 
-> A Vue.js project
+> wallpaper Engine web壁纸编辑模板
 
 ## Build Setup
 

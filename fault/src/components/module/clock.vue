@@ -1,6 +1,6 @@
 <template>
-  <div data-relative-input = "true" id="clock" class="clock" v-bind:class = "position">
-      <span id='time' data-depth="0.1"> 
+  <div data-relative-input = "true" id="clock" class="clock" v-bind:style="styleObject">
+      <span id='time' :data-depth="this.$store.state.wallpaperconfig.wallpaperconfig.layer.background.parallax"> 
           {{clock.h}}:{{clock.m}}
           <span class='sec'>{{clock.s}}</span> 
       </span>
@@ -15,8 +15,9 @@ export default {
   name: 'clock',
   data () {
     return {
-      clocktime: new Date()
-    } 
+      clocktime: new Date(),
+      parallaxjs: null
+    }
   },
   computed: {
       clock : function(){
@@ -31,33 +32,43 @@ export default {
           } 
       },
       clock2(){
-        return this.$store.state.clock2.value;
+        return this.$store.getters.doneclock2
       },
       clockx(){
-        return this.$store.state.clockx.value;
+        return this.$store.getters.doneclockx
       },
       clocky(){
-        return this.$store.state.clocky.value;
+        return this.$store.getters.doneclocky
       },
-      position(){
+      styleObject(){
           return {
             top: this.clocky+'%',
             left: this.clockx+'%'
           }
-      }
+      },
+      parallax (){
+        return this.$store.getters.doneParallax
+      },
+  },
+  watch: {
+    parallax(val) {
+        val ?
+        this.parallaxjs.enable() :
+        this.parallaxjs.disable()
+    }
   },
   mounted (){
-    var scene = document.getElementById('clock')
     var _this = this;
-    new Parallax(scene,{relativeInput : true})
+    var scene = document.getElementById('clock')
+    this.parallaxjs = new Parallax(scene,{relativeInput : true})
     this.timer = setInterval(function() {
         _this.clocktime = new Date()
     }, 1000)
   },
   beforeDestroy(){
-      if(this.timer) {
-        clearInterval(this.timer)
-      }
+    if(this.timer) {
+      clearInterval(this.timer)
+    }
   }
 }
 </script>
@@ -65,8 +76,6 @@ export default {
 <style scoped>
 .clock {
     position: fixed;
-    top: 42%;
-    left: 10%;
     text-align: center;
     color: rgb(255, 255, 255);
     font-size: 50px;

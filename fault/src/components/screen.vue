@@ -1,6 +1,6 @@
 <template>
   <div class="screen">
-      <background></background>
+      <background v-if="load"></background>
       <parts></parts>
       <clock v-if="clock1"></clock>
   </div>
@@ -20,8 +20,13 @@ export default {
   },
   computed:{
     clock1 (){
-      return this.$store.state.clock1.value;
+      return this.$store.getters.doneclock1
     },
+    load (){
+      return this.$store.dispatch('setconfigdata').then(() => {
+        return true
+      })
+    }
   }
 }
 </script>
