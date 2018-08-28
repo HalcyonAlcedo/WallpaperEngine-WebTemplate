@@ -34,8 +34,8 @@ export default {
             layer=label.layer,
             imglist =new Array,
             _this=this
-          this.$store.dispatch('setseasoncurrent', this.Season)
-          for(let i in layer)
+        this.$store.dispatch('setseasoncurrent', this.Season)  
+        for(let i in layer)
           {
             imglist.push({
               src:(!layer[i].src || layer[i].src === 'undefined') ? ('./static/resources/'+layer[i].file+' '+this.Season+' '+label.night+'.'+layer[i].type) : 
@@ -47,11 +47,16 @@ export default {
           }
           this.$nextTick(function(){
             let scene = document.getElementById('nightscene')
-            if(_this.parallaxjs === null)
+            if(_this.parallaxjs===null)
+            {
+              _this.parallaxjs=false
+              setTimeout(() => {
               _this.parallaxjs = new Parallax(scene,{relativeInput : true})
+              }, 500)
+            }
           })
           return {
-            img:imglist,
+            img:imglist
           }
       },
       parallax (){
@@ -79,7 +84,7 @@ export default {
       let label=this.label,
           date = new Date,
           _this = this
-      date=date.getMonth()+1
+      date=date.getMonth()+1;
       if(val=='sAuto' || val=='nAuto')
           {
             switch( true )

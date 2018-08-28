@@ -1,12 +1,17 @@
 <template>
   <div class="loadview">
-      <div id="load"><span>Wallpaper</span><span class="by">By Alcedo</span></div>
+      <div id="load"><span>Wallpaper</span><span class="by" v-if="author">By Alcedo</span></div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'loadview',
+  data () {
+    return {
+      author: false
+    }
+  },
   mounted (){
   particlesJS("load",{
   "particles": {
@@ -124,7 +129,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;  
-    z-index: 60;
+    z-index: 200;
     background-color: indigo
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div data-relative-input = "true" id="clock" class="clock" v-bind:style="styleObject">
-      <span id='time' :data-depth="this.$store.state.wallpaperconfig.wallpaperconfig.layer.background.parallax"> 
+      <span id='time' :data-depth="parallaxconfig ? parallaxconfig:0"> 
           {{clock.h}}:{{clock.m}}
           <span class='sec'>{{clock.s}}</span> 
       </span>
@@ -49,12 +49,21 @@ export default {
       parallax (){
         return this.$store.getters.doneParallax
       },
+      parallaxconfig (){
+        return this.$store.getters.donewallpaperconfig.layer.background.parallax
+      }
   },
   watch: {
     parallax(val) {
         val ?
         this.parallaxjs.enable() :
         this.parallaxjs.disable()
+    },
+    parallaxconfig(val) {
+      if(this.$store.getters.donewallpaperconfig.common.effect.clock.parallax)
+      this.parallaxjs.friction(val,val)
+      else
+      this.parallaxjs.friction(0,0)
     }
   },
   mounted (){

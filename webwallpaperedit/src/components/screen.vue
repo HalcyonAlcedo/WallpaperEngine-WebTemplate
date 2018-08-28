@@ -1,7 +1,7 @@
 <template>
   <div class="screen">
       <background v-if="load"></background>
-      <parts></parts>
+      <parts v-if="this.$store.getters.donewallpaperconfig.common.effect.particle.display"></parts>
       <clock v-if="clock1"></clock>
   </div>
 </template>

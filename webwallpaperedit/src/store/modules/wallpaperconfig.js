@@ -57,6 +57,14 @@ const config = {
                 benchmarks: 'sunset',
                 deviation: 0
             }
+        },
+        effect: {
+            clock: {
+                parallax: false
+            },
+            particle: {
+                display: true
+            }
         }
     }
 }

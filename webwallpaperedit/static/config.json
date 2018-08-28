@@ -3,11 +3,7 @@
         "background": {
             "file": "bg",
             "type": "png",
-            "parallax": 0.1,
-            "class": {
-                "width": "100vw",
-                "margin-left": "100vw"
-            },
+            "parallax": false,
             "src": "bgimg.jpg"
         }
     },
@@ -57,6 +53,14 @@
                 "label": "night",
                 "benchmarks": "sunset",
                 "deviation": 0
+            }
+        },
+        "effect": {
+            "clock": {
+                "parallax": false
+            },
+            "particle": {
+                "display": true
             }
         }
     }

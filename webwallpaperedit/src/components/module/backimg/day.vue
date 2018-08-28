@@ -47,11 +47,16 @@ export default {
           }
           this.$nextTick(function(){
             let scene = document.getElementById('dayscene')
-            if(_this.parallaxjs === null)
+            if(_this.parallaxjs===null)
+            {
+              _this.parallaxjs=false
+              setTimeout(() => {
               _this.parallaxjs = new Parallax(scene,{relativeInput : true})
+              }, 500)
+            }
           })
           return {
-            img:imglist,
+            img:imglist
           }
       },
       parallax (){

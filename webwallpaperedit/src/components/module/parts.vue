@@ -10,6 +10,7 @@
 export default {
   name: 'parts',
   mounted (){
+    if(this.seasoncurrent!=null)
     particlesJS("particles-js",require('@/assets/particles-'+this.seasoncurrent+'.json'))
   },
   computed: {
