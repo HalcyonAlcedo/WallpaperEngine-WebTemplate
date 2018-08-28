@@ -138,16 +138,16 @@ Default: _true_
 clockx用于控制时间在屏幕上X轴位置坐标。
 
 Value: _slider_  
-Max: _100_
-Min: _0_
+Max: _100_  
+Min: _0_  
 Default: _10_
 
-### clockx
+### clocky
 clocky用于控制时间在屏幕上Y轴位置坐标。
 
 Value: _slider_  
-Max: _100_
-Min: _0_
+Max: _100_  
+Min: _0_  
 Default: _42_
 
 ### region
