@@ -1,4 +1,4 @@
-# [WallpaperEngine-WebTemplate](https://github.com/HalcyonAlcedo/WallpaperEngine-WebTemplate)
+# [WallpaperEngine-WebTemplate](https://github.com/HalcyonAlcedo/WallpaperEngine-WebTemplate/tree/master/webwallpaperedit)
 
 WallpaperEngine-WebTemplate是用于在WallpaperEngine上快速生成Web壁纸的模板文件，内置了[**视差（parallax-js）**](https://github.com/wagerfield/parallax) 、[**粒子（parallax.js）**](https://github.com/wagerfield/parallax) 、时钟 、时间和季节切换功能 。
 
