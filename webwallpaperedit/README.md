@@ -147,9 +147,34 @@ npm test
     },
     "region": {
         "options": [{
-            "label": "北京(Beijing)",
-            "value": "{w:39.90,s:116.24,u:8}"
-        }],
+                        "label": "北京(Beijing)",
+                        "value": "{w:39.90,s:116.24,u:8}"
+                    },
+                    {
+                        "label": "柏林(Berlin)",
+                        "value": "{w:52.33,s:13.3,u:1}"
+                    },
+                    {
+                        "label": "伦敦(London)",
+                        "value": "{w:51.50,s:0.16,u:0}"
+                    },
+                    {
+                        "label": "莫斯科(Moscow)",
+                        "value": "{w:55.75,s:37.58,u:3}"
+                    },
+                    {
+                        "label": "纽约(New York)",
+                        "value": "{w:40.7,s:-74.01,u:-5}"
+                    },
+                    {
+                        "label": "巴黎(Paris)",
+                        "value": "{w:48.86,s:2.66,u:1}"
+                    },
+                    {
+                        "label": "东京(Tokyo)",
+                        "value": "{w:35.70,s:139.76,u:9}"
+                    }
+         ],
         "text": "地区(region)",
         "type": "combo",
         "value": "{w:39.90,s:116.24,u:8}"
